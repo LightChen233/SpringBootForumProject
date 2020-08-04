@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hit.mapper.ReplyMapper">
+
+    <select id="queryByPage"  resultType="Reply" parameterType="Page">
+        select * from (select * from reply where post_id=#{upId}) as newtable limit #{num},#{size};
+    </select>
+    <select id="queryByPost" resultType="int" parameterType="int">
+        select count(*) from reply where post_id=#{id}
+    </select>
+    <select id="queryByUser" resultType="Integer" parameterType="String">
+        select id from reply where username=#{username}
+    </select>
+    <delete id="deleteReply" parameterType="int">
+        delete from reply where id=#{id};
+    </delete>
+    <insert id="addReply" parameterType="Reply">
+        insert into reply(id,post_id,username,detail) values(#{id},#{post_id},#{username},#{detail})
+    </insert>
+</mapper>

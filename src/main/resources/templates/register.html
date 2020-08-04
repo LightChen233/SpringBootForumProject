@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard Template for Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <style type="text/css">
+        /* Chart.js */
+
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{commons/commons::topbar}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/commons::sidebar(active='main.html')}"></div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <form action="/register" method="post">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-primary" type="button">用户名</button>
+                    </div>
+                    <input type="text" class="form-control" placeholder="用户名" id="username" name="username" required="required">
+                </div>
+                <p><span th:value="${msg}" th:if="${not #strings.isEmpty(msg)}"></span></p>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-primary" type="button">密码</button>
+                    </div>
+                    <input type="password" class="form-control" placeholder="密码（请不要设置过于简单的密码）" id="pwd" name="pwd" required="required">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-primary" type="button">性别</button>
+                    </div>
+                    <div class="radio">
+                        &nbsp&nbsp&nbsp
+                        <label><input type="radio" name="gender" value="1" checked>男</label>
+                        &nbsp&nbsp&nbsp
+                        <label><input type="radio" name="gender" value="0">女</label>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-primary" type="button" required="required">邮箱</button>
+                    </div>
+                    <input type="text" class="form-control" placeholder="@xx.com" id="email" name="email">
+                </div>
+                <button type="submit" class="btn btn-success">注册</button>
+            </form>
+        </main>
+    </div>
+</div>
+</body>
+</html>
+

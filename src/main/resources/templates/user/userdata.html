@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>用户信息</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+    <style type="text/css">
+        /* Chart.js */
+
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{commons/commons::topbar}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/commons::sidebar}"></div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <form th:action="@{/user/updateUserData}" method="post">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-primary" type="button">用户ID</button>
+                    </div>
+                    <input type="text" class="form-control" id="userId" name="userId" th:value="${userdata.getUserid()}" readonly>
+                </div>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-primary" type="button">用户名</button>
+                    </div>
+                    <input type="text" class="form-control" placeholder="用户名" id="username" name="username" th:value="${userdata.getUsername()}" readonly>
+                </div>
+<!--                <div class="input-group mb-3">-->
+<!--                    <div class="input-group-prepend">-->
+<!--                        <button class="btn btn-primary" type="button">密码</button>-->
+<!--                    </div>-->
+<!--                    <input type="password" class="form-control" placeholder="密码（请不要设置过于简单的密码）" id="pwd" name="pwd" th:value="${userdata.getPwd()}">-->
+<!--                </div>-->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-primary" type="button">性别</button>
+                    </div>
+                    <div class="radio">
+                        &nbsp&nbsp&nbsp
+                        <label><input type="radio" name="gender" value="1" th:attr="checked=${userdata.getGender()==1?true:false}">男</label>
+                        &nbsp&nbsp&nbsp
+                        <label><input type="radio" name="gender" value="0" th:attr="checked=${userdata.getGender()==0?true:false}">女</label>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-primary" type="button">邮箱</button>
+                    </div>
+                    <input type="text" class="form-control" placeholder="@xx.com" id="email" name="email" th:value="${userdata.getEmail()}">
+                </div>
+                <button type="submit" class="btn btn-success" th:if="${session.username.equals(userdata.getUsername())}">修改</button>
+                <a class="btn btn-danger" th:if="${session.username.equals(userdata.getUsername())}" th:href="@{/user/toUpdatePwd/}+${username}">修改密码</a>
+            </form>
+
+        </main>
+    </div>
+</div>
+</body>
+</html>

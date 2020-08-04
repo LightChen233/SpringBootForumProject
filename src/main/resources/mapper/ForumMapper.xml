@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hit.mapper.ForumMapper">
+
+    <select id="queryAll"  resultType="Forum">
+        select * from forum
+    </select>
+    <select id="queryById"  resultType="Forum" parameterType="int">
+        select * from forum where id=#{id}
+    </select>
+    <select id="queryByName"  resultType="Forum" parameterType="String">
+        select * from forum where name=#{name}
+    </select>
+    <update id="updateNumber" parameterType="Forum">
+        update forum set number=#{number} where name=#{name}
+    </update>
+    <update id="updateDecription" parameterType="Forum">
+        update forum set description=#{description} where name=#{name}
+    </update>
+    <delete id="deleteForum" parameterType="int">
+        delete from forum where id=#{id}
+    </delete>
+    <insert id="addForum" parameterType="Forum">
+        insert into forum(name,description,number) values(#{name},#{description},#{number})
+    </insert>
+</mapper>

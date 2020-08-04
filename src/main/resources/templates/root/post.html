@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>管理帖子</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet">
+<!--    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">-->
+    <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/avalon.js}"></script>
+    <script th:src="@{/js/myscript.js}"></script>
+    <style type="text/css">
+        /* Chart.js */
+
+        @-webkit-keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes chartjs-render-animation {
+            from {
+                opacity: 0.99
+            }
+            to {
+                opacity: 1
+            }
+        }
+
+        .chartjs-render-monitor {
+            -webkit-animation: chartjs-render-animation 0.001s;
+            animation: chartjs-render-animation 0.001s;
+        }
+    </style>
+    <script type="text/javascript">
+        function myCheck()
+        {
+            for(var i=0;i<document.form1.elements.length-1;i++)
+            {
+                if(document.form1.elements[i].value=="")
+                {
+                    alert("请不要提交空内容！");
+                    document.form1.elements[i].focus();
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
+    <script type = "text/javascript">
+        function likeClick(postId) {
+            // alert("aaa");
+            var geturl;
+            geturl="/user/post/like/"+postId;
+            // alert(geturl);
+            $.ajax({
+                type: "post",
+                url: geturl,    //向后端请求数据的url
+                data: {},
+                success: function (data) {
+                    // $('button').removeClass("btn-primary").addClass("btn-success").attr('disabled', true);
+                    element=document.getElementById('myImg'+postId);
+                    // alert(element.src);
+                    var num;
+                    num=document.getElementById('likeNum'+postId).value;
+                    // alert(num);
+
+                    if (element.src.match("like1")){
+                        var temp=0;
+                        temp=Number(num)+1;
+                        element.src="/img/like/like2.png";
+                        document.getElementById('like'+postId).innerHTML=temp;
+                        document.getElementById('likeNum'+postId).value=temp;
+                        // document.getElementById("nums").innerHTML =
+                    }
+                    else{
+                        var temp=0;
+                        temp=Number(num)-1;
+                        element.src="/img/like/like1.png";
+                        document.getElementById('like'+postId).innerHTML=temp;
+                        document.getElementById('likeNum'+postId).value=temp;
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body ms-controller="viewmodel">
+<div th:replace="~{commons/commons::topbar}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div th:replace="~{commons/commons::sidebar(active='root.html')}"></div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" >
+            <h2>[[${forumName}]]</h2>
+            <div class="table-responsive">
+                <table class="table table-sm" th:each="post:${postView.getPosts()}" style="width:1000px">
+                    <tr>
+                        <td th:text="${post.getUser_name()}" rowspan="3" style="width:100px"></td>
+                        <td th:text="${post.getName()}" colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <td th:text="${post.getDetail()}" colspan="2" style="height:200px"></td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right">
+                            <a class="btn btn-sm btn-primary" th:href="@{/root/reply/}+${post.getId()}">回复</a>
+                            <a class="btn btn-sm btn-danger" th:href="@{/root/deletePost/post=}+${post.getId()}+@{/forum=}+${forumId}">删除</a>
+                        </td>
+                    </tr>
+
+                </table>
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" th:href="@{/root/post/}+${forumId}+@{/p=}+${postView.getCurrentPage()-1}">上一页</a></li>
+                    <li th:each="num:${postView.getPageNum()}" th:class="${num!=postView.getCurrentPage()}?'page-item':'page-item active'">
+                        <a class="page-link" th:href="@{/root/post/}+${forumId}+@{/p=}+${num}">
+                            [[${num}]]
+                        </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" th:href="@{/root/post/}+${forumId}+@{/p=}+${postView.getCurrentPage()+1}">下一页</a></li>
+                </ul>
+            </div>
+        </main>
+    </div>
+</div>
+</body>
+</html>

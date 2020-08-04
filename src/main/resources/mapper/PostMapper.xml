@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hit.mapper.PostMapper">
+
+    <select id="queryByPage"  resultType="Post" parameterType="Page">
+        select * from (select * from post where forum_id=#{upId}) as newtable limit #{num},#{size};
+    </select>
+    <select id="queryByForum"  resultType="int" parameterType="int">
+        select count(*) from post where forum_id=#{forum_id};
+    </select>
+    <select id="queryLikeNum"  resultType="int" parameterType="int">
+        select like_num from post where id=#{id};
+    </select>
+    <select id="queryByUser"  resultType="Post" parameterType="Post">
+        select * from post where id=#{id} and user_name=#{user_name};
+    </select>
+    <delete id="deletePost" parameterType="int">
+        delete from post where id=#{id};
+    </delete>
+    <insert id="addPost" parameterType="Post">
+        insert into post(like_num,forum_id,name,user_name,detail) values(#{like_num},#{forum_id},#{name},#{user_name},#{detail})
+    </insert>
+    <update id="updateLikeNum" parameterType="Post" >
+        update post set like_num=#{like_num} where id=#{id};
+    </update>
+</mapper>
